@@ -17,8 +17,8 @@
       "./node_modules/@types"
     ],
     "paths": {
-      "@utils/*": [
-        "./src/utils/*"
+      "@util/*": [
+        "src/util/*"
       ],
     }
   },

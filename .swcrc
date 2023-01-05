@@ -7,8 +7,8 @@
     },
     "target": "es5",
     "paths": {
-      "@utils/*": [
-        "./src/utils/*"
+      "@util/*": [
+        "./src/util/*"
       ]
     }
   },
