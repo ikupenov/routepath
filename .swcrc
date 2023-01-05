@@ -6,13 +6,26 @@
       "dynamicImport": true
     },
     "target": "es5",
+    "baseUrl": "dist",
     "paths": {
+      "@core": [
+        "core"
+      ],
+      "@core/*": [
+        "core/*"
+      ],
+      "@util": [
+        "util"
+      ],
       "@util/*": [
-        "./src/util/*"
+        "util/*"
       ]
     }
   },
+  "sourceMaps": true,
+  "inlineSourcesContent": true,
   "module": {
-    "type": "es6"
-  }
+    "type": "commonjs"
+  },
+  "isModule": false
 }

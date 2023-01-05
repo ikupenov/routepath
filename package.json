@@ -2,11 +2,9 @@
   "name": "routepath",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/main.js",
-  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run watch:compile\" \"npm run watch:dev\"",
-    "start": "NODE_ENV=production node dist/main.js",
+    "start": "node dist/main.js",
     "build": "swc src -d dist",
     "clean": "rm -rf dist",
     "watch:compile": "swc src -w --out-dir dist",

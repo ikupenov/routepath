@@ -12,13 +12,22 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "typeRoots": [
       "./node_modules/@types"
     ],
     "paths": {
+      "@core": [
+        "core"
+      ],
+      "@core/*": [
+        "core/*"
+      ],
+      "@util": [
+        "util"
+      ],
       "@util/*": [
-        "src/util/*"
+        "util/*"
       ],
     }
   },
