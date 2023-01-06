@@ -134,6 +134,7 @@ const readAll = async (path: string) => {
           (x) => ts.isVariableDeclaration(x)
         )
 
+        // TODO: Extract
         const pageProps = ["getServerSideProps", "getStaticProps"]
         const variableName = variableDeclaration?.name.getText(sourceFileAst)
 
