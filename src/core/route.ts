@@ -6,23 +6,58 @@ type Path<S extends string> = S extends "/"
 
 class Route<TPath extends string, TRoot extends string = TPath> {
   path: Path<TPath>
-  children: Route<Path<TPath>>[]
+  // TODO: Parent should not include children
+  parent: Route<Path<TPath>> | null
+  children?: Route<Path<TPath>>[]
 
-  constructor(path: Path<TPath>, children: Route<Path<TPath>>[] = []) {
+  constructor(
+    path: Path<TPath>,
+    parent: Route<Path<TPath>> | null = null,
+    children: Route<Path<TPath>>[] = []
+  ) {
     this.path = path
+    this.parent = parent
     this.children = children
   }
 
   addChildRoute<TChildPath extends string>(
     childRoute: Route<Path<TChildPath>>
   ): Route<TPath | Concat<TrimRight<TRoot, "/">, TChildPath>, TRoot> {
+    const innerChildRoute = new Route(
+      childRoute.path,
+      // TODO: Fix type
+      this as any,
+      childRoute.children
+    )
+
     return new Route<TPath | Concat<TrimRight<TRoot, "/">, TChildPath>, TRoot>(
       this.path,
+      this.parent,
       [
-        ...this.children,
-        childRoute as Route<Path<Concat<TrimRight<TRoot, "/">, TChildPath>>>,
+        ...(this.children ?? []),
+        innerChildRoute as Route<
+          Path<Concat<TrimRight<TRoot, "/">, TChildPath>>
+        >,
       ]
     )
+  }
+
+  getFullPath() {
+    const parentPaths = (() => {
+      const innerParentPaths: TPath[] = []
+
+      let childParentRoute = this?.parent as Route<TPath, TPath>
+      while (childParentRoute != null) {
+        innerParentPaths.unshift(childParentRoute.path as TPath)
+        childParentRoute = childParentRoute.parent as Route<TPath, TPath>
+      }
+
+      return innerParentPaths
+    })()
+
+    const fullPath = [...parentPaths, this.path].join("")
+
+    return fullPath
   }
 
   getRoute(path: TPath) {
@@ -30,18 +65,17 @@ class Route<TPath extends string, TRoot extends string = TPath> {
       return this
     }
 
-    const queue = this.children.slice()
+    const queue = this.children?.slice() as Route<TPath, TPath>[]
 
-    while (queue.length > 0) {
-      const childRoute = queue.shift()
+    while (queue?.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const childRoute = queue.shift()!
 
-      if (childRoute?.path === path) {
+      if (childRoute.getFullPath() === path) {
         return childRoute
       } else {
         if (childRoute?.children != null) {
-          queue.push(
-            ...(childRoute.children as Route<Path<TPath>, Path<TPath>>[])
-          )
+          queue.push(...(childRoute.children as Route<TPath, TPath>[]))
         }
       }
     }
