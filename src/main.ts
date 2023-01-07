@@ -3,7 +3,10 @@ import fs from "fs/promises"
 import ejs from "ejs"
 import ts from "typescript"
 
-// TODO: Extract as a pipe
+import { Node, DeepRecord } from "@common"
+import { trim } from "@util/string"
+
+// TODO: Extract in a pipe
 const isNextPage = async (filePath: string) => {
   const fileContentBuffer = await fs.readFile(filePath)
   const fileContentText = fileContentBuffer.toString("utf8")
@@ -87,36 +90,43 @@ const getAllNextPagesPaths = async (dirPath: string) => {
   return nextPages
 }
 
-const generateRoutepathFile = async () => {
-  interface Node {
-    path: string
-    children: Node[]
+const createTreeFromPaths = (filePaths: string[]) => {
+  const nodeRecord: DeepRecord = {}
+
+  filePaths.forEach((filePath) => {
+    const segments = trim(filePath, path.sep).split(path.sep)
+    segments.reduce((accumulator, segment) => {
+      accumulator[segment] ??= {}
+      return accumulator[segment]
+    }, nodeRecord)
+  })
+
+  // TODO: Remove file extension from "path"
+
+  const gen = (nodeRecord: DeepRecord | {}) => {
+    const nodeRecordKeys = Object.keys(nodeRecord)
+    if (nodeRecordKeys.length === 0) return []
+
+    return nodeRecordKeys.map(
+      (nrk): Node => ({
+        path: `/${nrk}`,
+        children: gen((nodeRecord as DeepRecord)[nrk]),
+      })
+    )
   }
 
-  // TODO: Generate tree from file paths
-  const tree = {
-    path: "/root" as const,
-    children: [
-      {
-        path: "/root-first" as const,
-        children: [
-          {
-            path: "/first-first",
-            children: [],
-          },
-          {
-            path: "/first-second",
-            children: [],
-          },
-        ],
-      },
-      {
-        path: "/root-second" as const,
-        children: [],
-      },
-    ],
+  const [rootPath] = Object.keys(nodeRecord)
+  if (rootPath == null) return null
+
+  const rootNode: Node = {
+    path: `/${rootPath}`,
+    children: gen(nodeRecord[rootPath]),
   }
 
+  return rootNode
+}
+
+const generateRoutepathFile = async (tree: Node) => {
   const generateRoutepathVariable = (node: Node) => {
     const addChildren = (innerNode: Node): string =>
       `.addChildRoute(createRoute({ path: "${innerNode.path}" })${
@@ -167,5 +177,12 @@ const generateRoutepathFile = async () => {
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
-  await generateRoutepathFile()
+  const nextPages = await getAllNextPagesPaths("src")
+  const nextPagesPathTree = createTreeFromPaths(nextPages)
+
+  console.log("TREE", JSON.stringify(nextPagesPathTree))
+
+  if (nextPagesPathTree != null) {
+    await generateRoutepathFile(nextPagesPathTree)
+  }
 })()

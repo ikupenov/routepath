@@ -1,6 +1,6 @@
 import { createRoute } from "@core"
 
-export const routepath = createRoute({ path: "/root" }).addChildRoute(createRoute({ path: "/root-first" }).addChildRoute(createRoute({ path: "/first-first" })).addChildRoute(createRoute({ path: "/first-second" }))).addChildRoute(createRoute({ path: "/root-second" }))
+export const routepath = createRoute({ path: "/src" }).addChildRoute(createRoute({ path: "/pages" }).addChildRoute(createRoute({ path: "/home.tss" })).addChildRoute(createRoute({ path: "/legal" }).addChildRoute(createRoute({ path: "/cookies.tss" })).addChildRoute(createRoute({ path: "/help.tss" }))))
 
 export const l = routepath.getRoute
 
