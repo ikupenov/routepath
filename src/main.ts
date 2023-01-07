@@ -109,7 +109,7 @@ const createTreeFromPaths = (filePaths: string[]) => {
 
     return nodeRecordKeys.map(
       (nrk): Node => ({
-        path: `/${nrk}`,
+        path: `/${path.parse(nrk).name}`,
         children: gen((nodeRecord as DeepRecord)[nrk]),
       })
     )
@@ -119,7 +119,7 @@ const createTreeFromPaths = (filePaths: string[]) => {
   if (rootPath == null) return null
 
   const rootNode: Node = {
-    path: `/${rootPath}`,
+    path: `/${path.parse(rootPath).name}`,
     children: gen(nodeRecord[rootPath]),
   }
 
