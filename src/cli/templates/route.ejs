@@ -1,3 +1,8 @@
-import { createRoute } from "@routepath/core"
+import { createRoute } from "@core"
 
-const asd = <%= bag.gosho %>
+export const routepath = <%- routepath %>
+
+export const l = routepath.getRoute
+
+export type Routepath = typeof routepath
+export type Route = Parameters<typeof l>["0"]

@@ -20,28 +20,6 @@ class Route<TPath extends string, TRoot extends string = TPath> {
     this.children = children
   }
 
-  addChildRoute<TChildPath extends string>(
-    childRoute: Route<Path<TChildPath>>
-  ): Route<TPath | Concat<TrimRight<TRoot, "/">, TChildPath>, TRoot> {
-    const innerChildRoute = new Route(
-      childRoute.path,
-      // TODO: Fix type
-      this as any,
-      childRoute.children
-    )
-
-    return new Route<TPath | Concat<TrimRight<TRoot, "/">, TChildPath>, TRoot>(
-      this.path,
-      this.parent,
-      [
-        ...(this.children ?? []),
-        innerChildRoute as Route<
-          Path<Concat<TrimRight<TRoot, "/">, TChildPath>>
-        >,
-      ]
-    )
-  }
-
   getFullPath() {
     const parentPaths = (() => {
       const innerParentPaths: TPath[] = []
@@ -58,6 +36,25 @@ class Route<TPath extends string, TRoot extends string = TPath> {
     const fullPath = [...parentPaths, this.path].join("")
 
     return fullPath
+  }
+
+  addChildRoute<TChildPath extends string>(
+    ...childRoutes: Route<Path<TChildPath>>[]
+  ): Route<TPath | Concat<TrimRight<TRoot, "/">, TChildPath>, TRoot> {
+    const innerChildRoutes = childRoutes.map(
+      (cr) => new Route(cr.path, this as any, cr.children)
+    )
+
+    return new Route<TPath | Concat<TrimRight<TRoot, "/">, TChildPath>, TRoot>(
+      this.path,
+      this.parent,
+      [
+        ...(this.children ?? []),
+        ...(innerChildRoutes as Route<
+          Path<Concat<TrimRight<TRoot, "/">, TChildPath>>
+        >[]),
+      ]
+    )
   }
 
   getRoute(path: TPath) {
