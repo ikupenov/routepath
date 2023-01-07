@@ -1,83 +1,8 @@
-/*
-  const articlesRoute = createRoute<{ queryParams: { query: string } }>({ path: "/articles" })
-    .addChildRoute<{ pathParams: { $slug: string | number } }>({ path: "/$slug" })
-
-  const rootRoute = createRoute({ path: "/" })
-    .addChildRoute(articlesRoute)
-    .addChildRoute({ path: "/help" })
-
-
-  const routepath = generateRoutepath(rootRoute)'
-
-  --------------------------------------------------------------
-
-  routepath("/articles/$slug", {
-    pathParams: { slug: "article-1" }
-  })
-
-  routepath("/articles", {
-    searchParams: { query: "crypto" }
-  })
-
-*/
-
 import path from "path"
 import fs from "fs/promises"
 import ejs from "ejs"
 import ts from "typescript"
 
-import { createRoute } from "@core"
-
-const testRoute = createRoute({ path: "/test" })
-
-const testRoute33 = createRoute({ path: "/test" })
-  .addChildRoute(
-    createRoute({
-      path: "/firstInner",
-    }).addChildRoute(createRoute({ path: "/firstInnerInner" }))
-  )
-  .addChildRoute(
-    createRoute({ path: "/secondInner" }).addChildRoute(
-      createRoute({ path: "/secondInnerInner" })
-    )
-  )
-
-const testRoute2 = createRoute({ path: "/asdasd" })
-  .addChildRoute(
-    createRoute({ path: "/baba" }).addChildRoute(createRoute({ path: "/simi" }))
-  )
-  .addChildRoute(createRoute({ path: "/gosho" }))
-
-const rootRoute = createRoute({ path: "/" })
-  .addChildRoute(
-    createRoute({ path: "/articles" }).addChildRoute(
-      createRoute({ path: "/$slug" }).addChildRoute(
-        createRoute({ path: "/details" })
-      )
-    )
-  )
-  .addChildRoute(
-    createRoute({ path: "/legal" })
-      .addChildRoute(createRoute({ path: "/gdpr" }))
-      .addChildRoute(createRoute({ path: "/cookies" }))
-  )
-  .addChildRoute(testRoute33)
-  .addChildRoute(testRoute2)
-
-// TODO: Makes slugs required
-const articleRoute = rootRoute.getRoute("/articles/$slug")
-
-// ---------------------------------------------------------------------------------------------
-
-// TODO: Generate file structure tree
-
-// TODO: Dynamically generate route file
-
-const home = path.basename("./pages/home.ts")
-
-const realRootRoute = createRoute({ path: "/" }).addChildRoute(
-  createRoute({ path: home })
-)
 // TODO: Extract as a pipe
 const isNextPage = async (filePath: string) => {
   const fileContentBuffer = await fs.readFile(filePath)
@@ -163,8 +88,6 @@ const getAllNextPagesPaths = async (dirPath: string) => {
 }
 
 const generateRoutepathFile = async () => {
-  // TODO: Construct tree here
-
   interface Node {
     path: string
     children: Node[]
@@ -213,22 +136,25 @@ const generateRoutepathFile = async () => {
   }
 
   const routepathVariable = generateRoutepathVariable(tree)
-  // console.log("ROUTEPATH VARIABLE", roussftepathVariable)
 
   const template = await ejs.renderFile(
-    path.join("src/cli/templates/route.ejs"),
+    path.join("src/cli/templates", "route.ejs"),
     {
       routepath: routepathVariable,
+    },
+    {
+      beautify: true,
     }
   )
 
   const libDirPath = "src/lib"
+
   try {
     const libDirStat = await fs.stat(libDirPath)
     if (!libDirStat.isDirectory()) {
       await fs.mkdir(libDirPath)
     }
-  } catch (error) {
+  } catch (error: any) {
     if (error?.code === "ENOENT") {
       await fs.mkdir(libDirPath)
     }
@@ -237,15 +163,9 @@ const generateRoutepathFile = async () => {
   await fs.writeFile(path.join(libDirPath, "routepath.ts"), template, {
     flag: "w",
   })
-
-  console.log("TEMPLATE", template)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
-  const nextPages = await getAllNextPagesPaths(path.join(__dirname, "pages"))
-  console.log("ALL NEXT PAGES", nextPages)
-
-  // TODO: Generate routepath.ts
   await generateRoutepathFile()
 })()
