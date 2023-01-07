@@ -7,6 +7,12 @@ import { Node, DeepRecord } from "@common"
 import { trim } from "@util/string"
 
 // TODO: Extract in a pipe
+const NEXT_PAGE_EXPORTS: Readonly<string[]> = [
+  "getServerSideProps",
+  "getStaticProps",
+]
+
+// TODO: Extract in a pipe
 const isNextPage = async (filePath: string) => {
   const fileContentBuffer = await fs.readFile(filePath)
   const fileContentText = fileContentBuffer.toString("utf8")
@@ -41,21 +47,16 @@ const isNextPage = async (filePath: string) => {
         ts.isVariableDeclaration(x)
       )
 
-      // TODO: Extract
-      const pageProps = ["getServerSideProps", "getStaticProps"]
       const variableName = variableDeclaration?.name.getText(sourceFileAst)
-
-      if (variableName != null && pageProps.includes(variableName)) {
+      if (variableName != null && NEXT_PAGE_EXPORTS.includes(variableName)) {
         isPage = true
         return
       }
     }
 
     if (ts.isFunctionDeclaration(node)) {
-      const pageProps = ["getServerSideProps", "getStaticProps"]
       const functionName = node?.name?.getText(sourceFileAst)
-
-      if (functionName != null && pageProps.includes(functionName)) {
+      if (functionName != null && NEXT_PAGE_EXPORTS.includes(functionName)) {
         isPage = true
         return
       }
@@ -65,6 +66,7 @@ const isNextPage = async (filePath: string) => {
   return isPage
 }
 
+// TODO: Extract in a pipe
 const getAllNextPagesPaths = async (dirPath: string) => {
   const nextPages: string[] = []
 
@@ -90,6 +92,7 @@ const getAllNextPagesPaths = async (dirPath: string) => {
   return nextPages
 }
 
+// TODO: Extract in core
 const createTreeFromPaths = (filePaths: string[]) => {
   const nodeRecord: DeepRecord = {}
 
@@ -126,6 +129,7 @@ const createTreeFromPaths = (filePaths: string[]) => {
   return rootNode
 }
 
+// TODO: Extract in core
 const generateRoutepathFile = async (tree: Node) => {
   const generateRoutepathVariable = (node: Node) => {
     const addChildren = (innerNode: Node): string =>
@@ -175,6 +179,7 @@ const generateRoutepathFile = async (tree: Node) => {
   })
 }
 
+// TODO: Extract in CLI
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
   const nextPages = await getAllNextPagesPaths("src")
