@@ -85,7 +85,12 @@ const getAllNextPagesPaths = async (dirPath: string) => {
 
     const isPage = await isNextPage(itemPath)
     if (isPage) {
-      nextPages.push(itemPath)
+      // TODO: Replace --in path with __pages__
+      const plainItemPath = itemPath.replace(
+        path.join("src", "pages"),
+        "__pages__"
+      )
+      nextPages.push(plainItemPath)
     }
   }
 
@@ -103,8 +108,6 @@ const createTreeFromPaths = (filePaths: string[]) => {
       return accumulator[segment]
     }, nodeRecord)
   })
-
-  // TODO: Remove file extension from "path"
 
   const gen = (nodeRecord: DeepRecord | {}) => {
     const nodeRecordKeys = Object.keys(nodeRecord)
@@ -182,12 +185,15 @@ const generateRoutepathFile = async (tree: Node) => {
 // TODO: Extract in CLI
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
+  // TODO: NextPages shouldn't include the whole dir
   const nextPages = await getAllNextPagesPaths("src")
+
   const nextPagesPathTree = createTreeFromPaths(nextPages)
 
-  console.log("TREE", JSON.stringify(nextPagesPathTree))
-
   if (nextPagesPathTree != null) {
+    // TODO: Extract
+    nextPagesPathTree.path = "/"
+
     await generateRoutepathFile(nextPagesPathTree)
   }
 })()
