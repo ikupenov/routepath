@@ -1,0 +1,14 @@
+{
+  "name": "@routepath/pipe-next",
+  "author": "Iliyan Kupenov",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": "routepath/pipe-next",
+  "homepage": "https://github.com/ikupenov/routepath",
+  "description": "",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "build/index.js",
+  "types": "build/index.d.ts"
+}

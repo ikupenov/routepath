@@ -1,4 +1,4 @@
-import { Concat, TrimRight, StartsWith } from "@common"
+import { Concat, TrimRight, StartsWith } from "@routepath/common"
 
 type Path<S extends string> = S extends "/"
   ? S

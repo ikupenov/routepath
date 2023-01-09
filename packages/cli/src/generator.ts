@@ -2,8 +2,8 @@ import path from "path"
 import fs from "fs/promises"
 import ejs from "ejs"
 
-import { Node, DeepRecord } from "@common"
-import { trim } from "@common/util/string"
+import { Node, DeepRecord } from "@routepath/common"
+import { trim } from "@routepath/common/util/string"
 
 export const generateTreeFromPaths = (filePaths: string[]) => {
   const nodeRecord: DeepRecord = {}

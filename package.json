@@ -12,7 +12,7 @@
     "lint:fix": "eslint --ext .ts src --fix"
   },
   "workspaces": [
-    "./packages/*"
+    "packages/*"
   ],
   "devDependencies": {
     "@swc/cli": "^0.1.59",
