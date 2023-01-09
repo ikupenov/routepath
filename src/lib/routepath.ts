@@ -1,6 +1,12 @@
-import { createRoute } from "@core"
+import { r } from "@core"
 
-export const routepath = createRoute({ path: "/" }).addChildRoute(createRoute({ path: "/home" })).addChildRoute(createRoute({ path: "/legal" }).addChildRoute(createRoute({ path: "/cookies" })).addChildRoute(createRoute({ path: "/help" })))
+export const routepath = r({ path: "/" })
+  .addChildRoute(r({ path: "/home" }))
+  .addChildRoute(
+    r({ path: "/legal" })
+      .addChildRoute(r({ path: "/cookies" }))
+      .addChildRoute(r({ path: "/help" }))
+  )
 
 export const l = routepath.getRoute
 

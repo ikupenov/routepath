@@ -90,3 +90,5 @@ export const createRoute = <TPath extends string>({
 }: CreateRouteOptions<Path<TPath>>) => {
   return new Route<TPath>(path)
 }
+
+export const r = createRoute

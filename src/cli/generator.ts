@@ -42,14 +42,14 @@ export const generateTreeFromPaths = (filePaths: string[]) => {
 export const generateRoutepathFile = async (tree: Node) => {
   const generateRoutepathVariable = (node: Node) => {
     const addChildren = (innerNode: Node): string =>
-      `.addChildRoute(createRoute({ path: "${innerNode.path}" })${
+      `.addChildRoute(r({ path: "${innerNode.path}" })${
         innerNode.children?.length === 0
           ? ""
           : innerNode.children.map(addChildren).join("")
       })`
 
     const createRoute = () =>
-      `createRoute({ path: "${node.path}" })${
+      `r({ path: "${node.path}" })${
         node.children?.length === 0
           ? ""
           : node.children.map(addChildren).join("")
