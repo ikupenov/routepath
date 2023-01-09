@@ -1,0 +1,15 @@
+import {
+  AboutPage,
+  AboutPageNamespaces,
+  AboutPageProps,
+} from "@pages/AboutPage"
+import { withStaticPageWrapper } from "@utils/withStaticPageWrapper"
+import { GetStaticProps } from "next"
+
+export async function getStaticProps(context) {
+  return {
+    props: {}, // will be passed to the page component as props
+  }
+}
+
+export default AboutPage

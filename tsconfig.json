@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "module": "es2022",
     "moduleResolution": "node",
     "allowJs": true,
@@ -12,13 +12,28 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "typeRoots": [
       "./node_modules/@types"
     ],
     "paths": {
+      "@core": [
+        "core"
+      ],
+      "@core/*": [
+        "core/*"
+      ],
+      "@common": [
+        "common"
+      ],
+      "@common/*": [
+        "common/*"
+      ],
+      "@util": [
+        "util"
+      ],
       "@util/*": [
-        "src/util/*"
+        "util/*"
       ],
     }
   },
