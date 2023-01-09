@@ -23,17 +23,23 @@
       "@core/*": [
         "core/*"
       ],
+      "@pipe": [
+        "pipe"
+      ],
+      "@pipe/*": [
+        "pipe/*"
+      ],
+      "@cli": [
+        "cli"
+      ],
+      "@cli/*": [
+        "cli/*"
+      ],
       "@common": [
         "common"
       ],
       "@common/*": [
         "common/*"
-      ],
-      "@util": [
-        "util"
-      ],
-      "@util/*": [
-        "util/*"
       ],
     }
   },
