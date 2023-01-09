@@ -8,11 +8,11 @@
       "path": "packages/common"
     },
     {
-      "path": "packages/pipe"
+      "path": "packages/cli"
     },
     {
-      "path": "packages/cli"
-    }
+      "path": "packages/pipe/next"
+    },
   ],
   "exclude": [
     "node_modules"

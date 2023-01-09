@@ -19,11 +19,11 @@
       "@routepath/common": [
         "packages/common"
       ],
-      "@routepath/pipe": [
-        "packages/pipe"
-      ],
       "@routepath/cli": [
         "packages/cli"
+      ],
+      "@routepath/pipe/next": [
+        "packages/pipe/next"
       ],
     },
   }
