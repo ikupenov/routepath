@@ -4,5 +4,5 @@ import { getAllNextPagesPaths } from "@pipe/next"
 // TODO: Extract in CLI
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
-  await generate((fp) => getAllNextPagesPaths(fp))
+  await generate(getAllNextPagesPaths)
 })()
