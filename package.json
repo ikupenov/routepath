@@ -1,9 +1,6 @@
 {
-  "name": "@routepath/core",
-  "version": "0.1.0",
-  "description": "",
-  "source": "src/main.ts",
-  "main": "dist/main.js",
+  "private": true,
+  "repository": "https://github.com/ikupenov/routepath.git",
   "scripts": {
     "dev": "concurrently \"npm run watch:compile\" \"npm run watch:dev\"",
     "start": "node dist/main.js",
@@ -14,8 +11,9 @@
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix"
   },
-  "author": "",
-  "license": "ISC",
+  "workspaces": [
+    "./packages/*"
+  ],
   "devDependencies": {
     "@swc/cli": "^0.1.59",
     "@swc/core": "^1.3.24",

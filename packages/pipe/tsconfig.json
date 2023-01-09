@@ -1,0 +1,13 @@
+{
+  "composite": true,
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./build"
+  },
+  "files": [
+    "src/next/index.ts"
+  ],
+  "include": [
+    "src"
+  ]
+}
