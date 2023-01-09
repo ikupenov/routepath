@@ -22,8 +22,8 @@
       "@routepath/cli": [
         "packages/cli"
       ],
-      "@routepath/pipe/next": [
-        "packages/pipe/next"
+      "@routepath/pipe-next": [
+        "packages/pipe-next"
       ],
     },
   }
