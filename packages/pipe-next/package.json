@@ -10,6 +10,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "main": "build/index.js",
+  "source": "src/index.ts",
   "types": "build/index.d.ts",
   "dependencies": {
     "typescript": "^4.9.4"
