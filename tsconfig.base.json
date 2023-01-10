@@ -3,6 +3,9 @@
     "target": "es2017",
     "module": "es2022",
     "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
     "allowJs": true,
     "removeComments": true,
     "resolveJsonModule": true,
@@ -25,6 +28,6 @@
       "@routepath/pipe-next": [
         "packages/pipe-next"
       ],
-    },
+    }
   }
 }
