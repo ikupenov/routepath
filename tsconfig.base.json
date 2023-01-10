@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
+    "allowJs": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@routepath/core": [
+        "packages/core"
+      ],
+      "@routepath/common": [
+        "packages/common"
+      ],
+      "@routepath/cli": [
+        "packages/cli"
+      ],
+      "@routepath/pipe-next": [
+        "packages/pipe-next"
+      ],
+    }
+  }
+}

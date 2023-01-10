@@ -1,0 +1,23 @@
+{
+  "name": "@routepath/core",
+  "author": "Iliyan Kupenov",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": "routepath/core",
+  "homepage": "https://github.com/ikupenov/routepath",
+  "description": "",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "source": "src/index.ts",
+  "types": "build/index.d.ts",
+  "files": [
+    "build/**",
+    "src"
+  ],
+  "dependencies": {
+    "@routepath/common": "workspace:*"
+  }
+}
