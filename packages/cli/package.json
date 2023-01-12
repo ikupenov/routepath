@@ -13,12 +13,23 @@
   "module": "build/index.es.js",
   "source": "src/index.ts",
   "types": "build/index.d.ts",
+  "scripts": {
+    "prebuild": "cp -r static build/static"
+  },
+  "bin": {
+    "rpcli": "bin/rpcli.js"
+  },
   "files": [
     "build/**",
+    "bin/**",
     "src"
   ],
   "dependencies": {
     "@routepath/common": "workspace:*",
-    "ejs": "^3.1.8"
+    "ejs": "^3.1.8",
+    "yargs": "^17.6.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.19"
   }
 }
