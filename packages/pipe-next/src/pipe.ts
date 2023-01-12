@@ -18,8 +18,6 @@ const isNextPage = async (filePath: string) => {
   )
 
   if (sourceFileAst == null) {
-    // TODO: Throw
-    console.log("NO SOURCE FILE AT", filePath)
     return false
   }
 

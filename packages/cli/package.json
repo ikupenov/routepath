@@ -13,6 +13,9 @@
   "module": "build/index.es.js",
   "source": "src/index.ts",
   "types": "build/index.d.ts",
+  "scripts": {
+    "prebuild": "cp -r static build/static"
+  },
   "bin": {
     "rpcli": "bin/rpcli.js"
   },

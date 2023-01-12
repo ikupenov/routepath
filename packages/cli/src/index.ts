@@ -46,33 +46,13 @@ yargs.command({
     const pagePaths = (await getPagePaths(source)) as string[]
     const pagePathsTree = generateTreeFromPaths(pagePaths)
 
-    console.log("OUT", out)
-
     if (pagePathsTree != null) {
-      console.log("BEFORE")
       await generateRoutepathFile(pagePathsTree, out)
-      console.log("AFTER")
     }
-
-    // console.log("PAGE PATHS", JSON.stringify(pagePathsTree))
   },
 })
 
-yargs.demandCommand().parse()
-
-// yargs
-//   .usage("HELLO FROM CLI")
-//   .option("l", {
-//     alias: "language",
-//     describe: "Translate to language",
-//     type: "string",
-//     demandOption: false,
-//   })
-//   .option("s", {
-//     alias: "sentence",
-//     describe: "Sentence to be translated",
-//     type: "string",
-//     demandOption: false,
-//   })
-//   .help(true)
-//   .parse()
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+;(async () => {
+  await yargs.demandCommand().parse()
+})()

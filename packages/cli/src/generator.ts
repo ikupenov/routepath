@@ -59,8 +59,16 @@ export const generateRoutepathFile = async (tree: Node, outPath: string) => {
 
   const routepathVariable = generateRoutepathVariable(tree)
 
-  const template = await ejs.renderFile(
-    path.join("..\\build\\templates", "route.ejs"),
+  const routepathTemplatePath = path.join(
+    process.cwd(),
+    "build",
+    "static",
+    "templates",
+    "routepath.ejs"
+  )
+
+  const routepathTemplate = await ejs.renderFile(
+    routepathTemplatePath,
     {
       routepath: routepathVariable,
     },
@@ -80,7 +88,7 @@ export const generateRoutepathFile = async (tree: Node, outPath: string) => {
     }
   }
 
-  await fs.writeFile(path.join(outPath, "routepath.ts"), template, {
+  await fs.writeFile(path.join(outPath, "routepath.ts"), routepathTemplate, {
     flag: "w",
   })
 }
