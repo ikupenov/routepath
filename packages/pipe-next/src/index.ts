@@ -1,1 +1,1 @@
-export * from "./pipe"
+export { getAllNextPagesPaths as getPagePaths } from "./pipe"

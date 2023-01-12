@@ -60,8 +60,10 @@ const isNextPage = async (filePath: string) => {
   return isPage
 }
 
-// TODO: Make abstract
-export const getAllNextPagesPaths = async (dirPath: string) => {
+export const getAllNextPagesPaths = async (
+  dirPath: string,
+  startDirPath: string = dirPath
+) => {
   const nextPages: string[] = []
 
   const files = await fs.readdir(dirPath)
@@ -71,7 +73,7 @@ export const getAllNextPagesPaths = async (dirPath: string) => {
     const itemStat = await fs.stat(itemPath)
 
     if (itemStat.isDirectory()) {
-      const nestedNextPages = await getAllNextPagesPaths(itemPath)
+      const nestedNextPages = await getAllNextPagesPaths(itemPath, startDirPath)
       nextPages.push(...nestedNextPages)
 
       continue
@@ -79,13 +81,12 @@ export const getAllNextPagesPaths = async (dirPath: string) => {
 
     const isPage = await isNextPage(itemPath)
     if (isPage) {
-      // TODO: Replace --in path with __pages__
-      const plainItemPath = itemPath.replace(
-        path.join("src", "pages"),
-        "__pages__"
-      )
+      const universalStartDirPath = startDirPath.replace(/\\/g, "/")
+      const universalItemPath = itemPath
+        .replace(/\\/g, "/")
+        .replace(universalStartDirPath, "__pages__")
 
-      nextPages.push(plainItemPath)
+      nextPages.push(universalItemPath)
     }
   }
 

@@ -8,7 +8,7 @@ export const generateTreeFromPaths = (filePaths: string[]) => {
   const nodeRecord: DeepRecord = {}
 
   filePaths.forEach((filePath) => {
-    const segments = trim(filePath, path.sep).split(path.sep)
+    const segments = trim(filePath, "/").split("/")
     segments.reduce((accumulator, segment) => {
       accumulator[segment] ??= {}
       return accumulator[segment]
@@ -38,7 +38,7 @@ export const generateTreeFromPaths = (filePaths: string[]) => {
   return rootNode
 }
 
-export const generateRoutepathFile = async (tree: Node) => {
+export const generateRoutepathFile = async (tree: Node, outPath: string) => {
   const generateRoutepathVariable = (node: Node) => {
     const addChildren = (innerNode: Node): string =>
       `.addChildRoute(r({ path: "${innerNode.path}" })${
@@ -60,7 +60,7 @@ export const generateRoutepathFile = async (tree: Node) => {
   const routepathVariable = generateRoutepathVariable(tree)
 
   const template = await ejs.renderFile(
-    path.join("src/cli/templates", "route.ejs"),
+    path.join("..\\build\\templates", "route.ejs"),
     {
       routepath: routepathVariable,
     },
@@ -69,20 +69,18 @@ export const generateRoutepathFile = async (tree: Node) => {
     }
   )
 
-  const libDirPath = "src/lib"
-
   try {
-    const libDirStat = await fs.stat(libDirPath)
+    const libDirStat = await fs.stat(outPath)
     if (!libDirStat.isDirectory()) {
-      await fs.mkdir(libDirPath)
+      await fs.mkdir(outPath)
     }
   } catch (error: any) {
     if (error?.code === "ENOENT") {
-      await fs.mkdir(libDirPath)
+      await fs.mkdir(outPath)
     }
   }
 
-  await fs.writeFile(path.join(libDirPath, "routepath.ts"), template, {
+  await fs.writeFile(path.join(outPath, "routepath.ts"), template, {
     flag: "w",
   })
 }
