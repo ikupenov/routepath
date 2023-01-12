@@ -2,8 +2,9 @@
   "private": true,
   "repository": "https://github.com/ikupenov/routepath.git",
   "scripts": {
-    "build": "parcel build packages/*",
-    "watch": "parcel watch packages/*",
+    "prebuild": "pnpm run -r prebuild",
+    "build": "concurrently \"npm run prebuild\" \"parcel build packages/*\"",
+    "watch": "concurrently \"npm run prebuild\" \"parcel watch packages/*\"",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix"
   },
