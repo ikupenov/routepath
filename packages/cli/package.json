@@ -14,7 +14,7 @@
   "source": "src/index.ts",
   "types": "build/index.d.ts",
   "scripts": {
-    "prebuild": "cp -r static build/static"
+    "prebuild": "ncp static build/static"
   },
   "bin": {
     "rpcli": "bin/rpcli.js"
@@ -30,6 +30,7 @@
     "yargs": "^17.6.2"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.19"
+    "@types/yargs": "^17.0.19",
+    "ncp": "^2.0.0"
   }
 }
